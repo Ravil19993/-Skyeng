@@ -1,0 +1,844 @@
+{
+	"info": {
+		"_postman_id": "b8707df5-78ca-4974-bae9-988056301561",
+		"name": "Coursework 2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22683894"
+	},
+	"item": [
+		{
+			"name": "Получение списка",
+			"item": [
+				{
+					"name": "Получить список",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{MyToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"from\": \"2022-09-15T00:00:00+03:00\",\n    \"till\": \"2022-09-29T23:59:00+03:00\",\n    \"onlyTypes\": [\n        \"slot\",\n        \"event\"\n    ],\n    \"statuses\": [\n        \"without_status\"\n    ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/events",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Событие с валидным значением имени",
+			"item": [
+				{
+					"name": "Событие в будущем",
+					"item": [
+						{
+							"name": "Создание в будущем",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var key = \"eventID\"",
+											"var value = pm.response.json().data.payload.id //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)",
+											"",
+											"var key = \"OldTime\"",
+											"var value = pm.response.json().data.startAt //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startAt\": \"2022-09-29T00:30:00+02:00\",\n    \"endAt\": \"2022-09-29T00:50:00+02:00\",\n    \"title\": \"Ziyatdinov\",\n    \"description\": \"English lesson\",\n    \"color\": \"#43B658\",\n    \"backgroundColor\": \"#EBFDF2\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/createPersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Перенос из будущего в настоящее",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var key = \"eventIDNew\"",
+											"var value = pm.response.json().data.payload.id //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)",
+											"",
+											"var key = \"NewTime\"",
+											"var value = pm.response.json().data.startAt //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startAt\": \"2022-09-25T00:10:00+02:00\",\n    \"endAt\": \"2022-09-25T00:50:00+02:00\",\n    \"title\": \"Ziyatdinov\",\n    \"description\": \"English lesson\",\n    \"color\": \"#43B658\",\n    \"backgroundColor\": \"#EBFDF2\",\n    \"id\": {{eventID}},\n    \"oldStartAt\": \"{{OldTime}}\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/updatePersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Перенос из настоящего в будущее",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var key = \"eventIDNew\"",
+											"var value = pm.response.json().data.payload.id //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)",
+											"",
+											"var key = \"NewTime\"",
+											"var value = pm.response.json().data.startAt //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startAt\": \"2022-09-28T00:10:00+02:00\",\n    \"endAt\": \"2022-09-28T00:50:00+02:00\",\n    \"title\": \"Ziyatdinov\",\n    \"description\": \"English lesson\",\n    \"color\": \"#43B658\",\n    \"backgroundColor\": \"#EBFDF2\",\n    \"id\": {{eventIDNew}},\n    \"oldStartAt\": \"{{NewTime}}\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/updatePersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события в будущем",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": {{eventIDNew}},\n    \"startAt\": \"{{NewTime}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/removePersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Событие в прошлом",
+					"item": [
+						{
+							"name": "Создание в прошлом",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var key = \"eventID\"",
+											"var value = pm.response.json().data.payload.id //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)",
+											"",
+											"var key = \"OldTime\"",
+											"var value = pm.response.json().data.startAt //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startAt\": \"2022-09-19T17:30:00+02:00\",\n    \"endAt\": \"2022-09-19T19:30:00+02:00\",\n    \"title\": \"Зиятдинов\",\n    \"description\": \"Английский язык - индивидуальный урок\",\n    \"color\": \"#43B658\",\n    \"backgroundColor\": \"#EBFDF2\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/createPersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Перенос из прошлого в будущее",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var key = \"eventIDNew\"",
+											"var value = pm.response.json().data.payload.id //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)",
+											"",
+											"var key = \"NewTime\"",
+											"var value = pm.response.json().data.startAt //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startAt\": \"2022-09-29T17:30:00+02:00\",\n    \"endAt\": \"2022-09-29T19:30:00+02:00\",\n    \"title\": \"Зиятдинов\",\n    \"description\": \"Английский язык - индивидуальный урок\",\n    \"color\": \"#43B658\",\n    \"backgroundColor\": \"#EBFDF2\",\n    \"id\": {{eventID}},\n    \"oldStartAt\": \"{{OldTime}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/updatePersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Перенос из будущего в прошлое + изменение параметров",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var key = \"eventIDNew\"",
+											"var value = pm.response.json().data.payload.id //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)",
+											"",
+											"var key = \"NewTime\"",
+											"var value = pm.response.json().data.startAt //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startAt\": \"2022-09-17T17:30:00+02:00\",\n    \"endAt\": \"2022-09-17T19:30:00+02:00\",\n    \"title\": \"Равиль Зиятдинов (скорректировано)\",\n    \"description\": \"Французский язык - групповое занятие\",\n    \"color\": \"#D478F1\",\n    \"backgroundColor\": \"#EBFDF2\",\n    \"id\": {{eventIDNew}},\n    \"oldStartAt\": \"{{NewTime}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/updatePersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события в прошлом",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": {{eventIDNew}},\n    \"startAt\": \"{{NewTime}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/removePersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Событие в настоящем + удаление не существующего события",
+					"item": [
+						{
+							"name": "Создание в настоящем",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var key = \"eventID\"",
+											"var value = pm.response.json().data.payload.id //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)",
+											"",
+											"var key = \"OldTime\"",
+											"var value = pm.response.json().data.startAt //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startAt\": \"2022-09-19T17:30:00+02:00\",\n    \"endAt\": \"2022-09-19T19:30:00+02:00\",\n    \"title\": \"Зиятдинов\",\n    \"description\": \"Английский язык - индивидуальный урок\",\n    \"color\": \"#43B658\",\n    \"backgroundColor\": \"#EBFDF2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/createPersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Перенос из настоящего в прошлое",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var key = \"eventIDNew\"",
+											"var value = pm.response.json().data.payload.id //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)",
+											"",
+											"var key = \"NewTime\"",
+											"var value = pm.response.json().data.startAt //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startAt\": \"2022-09-29T17:30:00+02:00\",\n    \"endAt\": \"2022-09-29T19:30:00+02:00\",\n    \"title\": \"Зиятдинов\",\n    \"description\": \"Английский язык - индивидуальный урок\",\n    \"color\": \"#43B658\",\n    \"backgroundColor\": \"#EBFDF2\",\n    \"id\": {{eventID}},\n    \"oldStartAt\": \"{{OldTime}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/updatePersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Перенос из прошлого в настоящее",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var key = \"eventIDNew\"",
+											"var value = pm.response.json().data.payload.id //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)",
+											"",
+											"var key = \"NewTime\"",
+											"var value = pm.response.json().data.startAt //Вместо id можно использовать другое поле  json",
+											"pm.collectionVariables.set(key, value)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startAt\": \"2022-09-17T17:30:00+02:00\",\n    \"endAt\": \"2022-09-17T19:30:00+02:00\",\n    \"title\": \"Равиль Зиятдинов (скорректировано)\",\n    \"description\": \"Французский язык - групповое занятие\",\n    \"color\": \"#D478F1\",\n    \"backgroundColor\": \"#EBFDF2\",\n    \"id\": {{eventIDNew}},\n    \"oldStartAt\": \"{{NewTime}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/updatePersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события в настоящем",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": {{eventIDNew}},\n    \"startAt\": \"{{NewTime}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/removePersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление не существующего события",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token={{MyToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": {{eventIDNew}},\n    \"startAt\": \"{{NewTime}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BaseURL}}/removePersonal",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "События с невалидными значениями",
+			"item": [
+				{
+					"name": "Создание с невалидным именем",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var key = \"eventID\"",
+									"var value = pm.response.json().data.payload.id //Вместо id можно использовать другое поле  json",
+									"pm.collectionVariables.set(key, value)",
+									"",
+									"var key = \"OldTime\"",
+									"var value = pm.response.json().data.startAt //Вместо id можно использовать другое поле  json",
+									"pm.collectionVariables.set(key, value)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{MyToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"startAt\": \"2022-09-29T00:30:00+02:00\",\n    \"endAt\": \"2022-09-29T00:50:00+02:00\",\n    \"title\": \"你好你好嗎？\",\n    \"description\": \"English lesson\",\n    \"color\": \"#43B658\",\n    \"backgroundColor\": \"#EBFDF2\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/createPersonal",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание с невалидным опианием",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var key = \"eventID\"",
+									"var value = pm.response.json().data.payload.id //Вместо id можно использовать другое поле  json",
+									"pm.collectionVariables.set(key, value)",
+									"",
+									"var key = \"OldTime\"",
+									"var value = pm.response.json().data.startAt //Вместо id можно использовать другое поле  json",
+									"pm.collectionVariables.set(key, value)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{MyToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"startAt\": \"2022-09-29T02:30:00+02:00\",\n    \"endAt\": \"2022-09-29T03:50:00+02:00\",\n    \"title\": \"Ziyatdinov\",\n    \"description\": \"與領導見面！\",\n    \"color\": \"#43B658\",\n    \"backgroundColor\": \"#EBFDF2\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/createPersonal",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Изменение цвета события на любой другой, который НЕ предложен системой",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{MyToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"startAt\": \"2022-09-29T02:30:00+02:00\",\n    \"endAt\": \"2022-09-29T03:50:00+02:00\",\n    \"title\": \"Цвет должен измениться\",\n    \"description\": \"Цвет будет нестандартный\",\n    \"color\": \"#000000\",\n    \"backgroundColor\": \"#EBFDF2\",\n    \"id\": {{eventID}},\n    \"oldStartAt\": \"{{OldTime}}\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/updatePersonal",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"updatePersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{MyToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "MyToken",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjEwMzM4NzM2LCJpZGVudGl0eSI6InRlc3QtbW9iaWxlMUBza3llbmcucnUiLCJpZGVudGl0eUxvZ2luIjpudWxsLCJpZGVudGl0eUVtYWlsIjoidGVzdC1tb2JpbGUxQHNreWVuZy5ydSIsImlkZW50aXR5UGhvbmUiOiIrNzkxMjI1MjUyNTIiLCJuYW1lIjoiUmFkMTIiLCJzdXJuYW1lIjoiXHUwNDE4XHUwNDMyXHUwNDMwXHUwNDNkXHUwNDNlXHUwNDMyIiwiZW1haWwiOiJ0ZXN0LW1vYmlsZTFAc2t5ZW5nLnJ1IiwidWlMYW5ndWFnZSI6InJ1IiwibG9jYWxlIjoicnUiLCJzZXJ2aWNlTG9jYWxlIjpudWxsLCJ1YXMiOjMwLCJqd3RUeXBlIjoxLCJqdGkiOiJ6ZGEyRVdIS08zMHUzUGdBcU92cTB6SVJaU001N2Z4NSIsImJyYW5kIjpudWxsLCJleHAiOjE2NjM5NTQwNzQsImF2YXRhclVybCI6Imh0dHBzOlwvXC9hdXRoLWF2YXRhcnMtc2t5ZW5nLmltZ2l4Lm5ldFwvMTAzMzg3MzZcL2E0ZjVmMDI3LTcyMTQtNDk3Ni05OWJiLTBmNzQzNmI3MjU0ZD9hdXRvPWZvcm1hdCUyQ2VuaGFuY2UmZml0PWNyb3AmaD0yMDAmaXhsaWI9cGhwLTIuMS4xJnE9NzUmc2F0PTgmc2hhcnA9MTAmdmliPTgmdz0yMDAiLCJiaXJ0aGRheSI6IjE5NzEtMDMtMDUiLCJhVHlwZSI6IlVTRVJOQU1FX1BBU1NXT1JEIiwiYVRpbWUiOjE2NjM4Njc2NzEsInJvbGVzIjpbIlJPTEVfVEVBQ0hFUiIsIlJPTEVfQ1JNMl9URUFDSEVSX0FDQ0VTUyIsIlJPTEVfVFRDX1VTQUdFIiwiUk9MRV9WSU1CT1hfVEVBQ0hFUl9VU0FHRSIsIlJPTEVfVklNQk9YX0NSRUFURV9TQ1JFRU5JTkdfVEVTVCJdfQ.at75EhAAXwRY9LKI-S9VhlTk1abij3-JmWKctGi5NvWnp9JCbyf22zDQhhMMKMCxAR7hzqfbwumGylPtLNsspvurT_RhQ_hCwf2jJFLoc9wpaaYUL1dwLxX-sOSDruSxmMA_7fDXplimfebenbc7Zd3FpRcmGWKJVgR_rmxLINDQSFkz2R2b1mAu09rIuScycVl03UF4n60tor0FQoym-yOa20mamhJFZ6DijaYutbMFzKRmZjbq3csgXdQJIzHk0F5dOMfs7b8sri4T4YNgkSNW8d7fvmVDmRJj8noqZr1aa15YNNcHdTstfyJDUeLZh59Vjfuf_xFVXtYgUnmC-C57Wq44wkzRKDglJvSj_E1fqlwAdQ_kkK_FGChJmr62rPP9nRvy9NVoC5tN5oGGnFVENg9h6iKqkK_ZYfnJDzogoy60qYCDqVIQxUU3yHuGA3S8-f3jkkNfdc1oQmL5SJDIN01dxZWXe68GBxe5ZgCjByWXMJqGAYn4_ox_jFgiNJTCpIDZ9cUyH9grmGC9ZoMCZ8KB-D24pcMciTijrJV9jTA5CS5ZMbraSHj42g96ATs7g30c-E1uxdlUjmC4JhewT4mNUU1Rhhqu1EFZyGMqWmiDSB2QQAJEc0fgm3LxXdR2HAew_X9mWqBUqch1laHOYOz19ldH3Zf5OAOEKO8",
+			"type": "string"
+		},
+		{
+			"key": "BaseURL",
+			"value": "https://api-teachers.skyeng.ru/v2/schedule",
+			"type": "string"
+		},
+		{
+			"key": "IDevent",
+			"value": ""
+		},
+		{
+			"key": "eventID",
+			"value": ""
+		},
+		{
+			"key": "OldTime",
+			"value": ""
+		},
+		{
+			"key": "NewTime",
+			"value": ""
+		},
+		{
+			"key": "eventIDNew",
+			"value": ""
+		}
+	]
+}
